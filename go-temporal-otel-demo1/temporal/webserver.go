@@ -48,7 +48,7 @@ func startWorkflowHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	go startWorker() // optional: start the worker in the same app
+	// go startWorker() // optional: start the worker in the same app
 
 	// http.HandleFunc("/start", startWorkflowHandler)
 	// log.Println("Webserver listening on :8081")
