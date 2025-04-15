@@ -21,10 +21,10 @@ func callAppAHandler(w http.ResponseWriter, r *http.Request) {
 	defer span.End()
 
 	// Serialize the context into carrier
-	carrier := propagation.MapCarrier{}
-	propgator.Inject(ctx, carrier)
-	// This carrier is sent accros the process
-	fmt.Println(carrier)
+	// carrier := propagation.MapCarrier{}
+	// propgator.Inject(ctx, carrier)
+	// // This carrier is sent accros the process
+	// fmt.Println(carrier)
 
 	spanCtx := trace.SpanContextFromContext(ctx)
 	log.Printf("App B Trace ID: %s, Span ID: %s", spanCtx.TraceID(), spanCtx.SpanID())
@@ -36,6 +36,7 @@ func callAppAHandler(w http.ResponseWriter, r *http.Request) {
 	req, _ := http.NewRequestWithContext(ctx, "GET", "http://localhost:8081/hello", nil)
 
 	propgator.Inject(ctx, propagation.HeaderCarrier(req.Header))
+	fmt.Println(req.Header)
 
 	res, err := client.Do(req)
 	if err != nil {
