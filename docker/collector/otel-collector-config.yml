@@ -1,0 +1,74 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: "0.0.0.0:4317"
+      http:
+        endpoint: "0.0.0.0:4318"
+
+#exporters:
+#  prometheus:
+#    endpoint: "0.0.0.0:9090"
+#    const_labels:
+#      job: "tempo-metrics"
+
+#processors:
+#  batch:
+#    timeout: 1s
+
+#otel:
+#  exporter:
+#    otlp:
+#      endpoint: "http://localhost:4317"
+#  traces:
+#    exporter: logging  # This logs trace data, including span names
+#  metrics:
+#    exporter:
+#      logging:
+#        enabled: true
+#        log-level: debug
+#      prometheus:
+#        enabled: true
+#        endpoint: "0.0.0.0:9090"
+
+#connectors:
+#  spanmetrics:
+#    histogram:
+#      explicit:
+#    dimensions:
+#      - name: http.method
+#        default: "GET"
+#      - name: http.status_code
+
+#connectors:
+#  spanmetrics:
+#    histogram:
+#      explicit:
+#        buckets: [0.1, 0.5, 1.0, 5.0,10,60,300]
+#    dimensions:
+#      - name: http.method
+#        default: GET
+#      - name: http.status_code
+#      - name: span.name
+#
+#    metrics_flush_interval: 15s
+
+#service:
+#  pipelines:
+#    traces:
+#      receivers: [otlp]
+#      exporters: [otlphttp, spanmetrics]
+#    metrics:
+#      receivers: [spanmetrics]
+#      exporters: [otlphttp]
+
+service:
+  pipelines:
+#    traces:
+#      receivers: [otlp]
+#      processors: [batch]
+#      exporters: []
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [prometheus]
